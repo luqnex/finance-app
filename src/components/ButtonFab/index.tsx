@@ -2,15 +2,18 @@ import { useState } from "react";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
+import { StackNavigationProp } from "@react-navigation/stack";
+
 import { useNavigation } from "@react-navigation/native";
+
+import { NavigationProps } from "../../utils/interface";
 
 import { styles } from "./styles";
 
 export const ButtonFab = () => {
   const [showButtons, setShowButtons] = useState(false);
 
-  // TODO: arrumar a tipagem
-  const navigation: any = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
   const handleShowButtons = () => {
     setShowButtons(!showButtons);

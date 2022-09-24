@@ -2,8 +2,12 @@ import { Button, View } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
+import { StackNavigationProp } from "@react-navigation/stack";
+
+import { NavigationProps } from "../../utils/interface";
+
 export const Counts = () => {
-  const navigation: any = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
   return (
     <View

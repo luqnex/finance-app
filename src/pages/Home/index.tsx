@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { Image, Text, View } from "react-native";
+
 import { ButtonFab } from "../../components/ButtonFab";
 
 import { styles } from "./styles";
@@ -43,7 +44,7 @@ export const Home = () => {
             style={styles.imageNotCounts}
           />
           <Text style={styles.textNotCounts}>
-            Você ainda não tem nenhuma conta cadastrada
+            Você ainda não tem nenhum gasto cadastrado
           </Text>
         </View>
       </View>
