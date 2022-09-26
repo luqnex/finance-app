@@ -19,9 +19,8 @@ import { styles } from "./styles";
 import { ButtonSave } from "../../components/ButtonSave";
 import { useState } from "react";
 
-export const Counts = () => {
+export const Income = () => {
   const [name, setName] = useState("");
-  const [date, setDate] = useState("");
 
   const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
@@ -37,10 +36,6 @@ export const Counts = () => {
     setName(text);
   };
 
-  const handleChangeDate = (date: string) => {
-    setDate(date);
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -52,17 +47,15 @@ export const Counts = () => {
       </View>
 
       <View style={styles.containerText}>
+        <Text style={styles.subtitle}>
+          Insira o valor total da sua receita, já somando todas caso tenha mais
+          de uma
+        </Text>
         <TextInput
           value={name}
           style={styles.inputName}
-          placeholder="Nome da conta"
+          placeholder="Valor total da sua receita"
           onChangeText={handleChangeName}
-        />
-        <TextInput
-          value={date}
-          style={styles.inputDate}
-          placeholder="Data de vencimento"
-          onChangeText={handleChangeDate}
         />
       </View>
 

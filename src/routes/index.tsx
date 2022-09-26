@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Home } from "../pages/Home";
 import { Counts } from "../pages/Counts";
+import { Income } from "../pages/Income";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,11 @@ export const Routes = () => {
         <Stack.Screen
           name="Counts"
           component={Counts}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Income"
+          component={Income}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -24,7 +24,10 @@ export const ButtonFab = () => {
     setShowButtons(false);
   };
 
-  const handleNavigateToAmount = () => {};
+  const handleNavigateToAmount = () => {
+    navigation.navigate("Income");
+    setShowButtons(false);
+  };
 
   return (
     <>
