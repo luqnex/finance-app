@@ -1,11 +1,74 @@
 import { StatusBar } from "expo-status-bar";
-import { Image, Text, View } from "react-native";
+import { FlatList, Image, SafeAreaView, Text, View } from "react-native";
 
 import { ButtonFab } from "../../components/ButtonFab";
+import { Card } from "../../components/Card";
 
 import { styles } from "./styles";
 
+type CountsDataProps = {
+  id: number;
+  title: string;
+  subtitle: string;
+};
+
+type RenderItemProps = {
+  item: CountsDataProps;
+};
+
+const mockData: CountsDataProps[] = [
+  {
+    id: 1,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 2,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 3,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 4,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 5,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 6,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 7,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 8,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+  {
+    id: 9,
+    title: "Patrimônio 147456",
+    subtitle: "10/07/2022",
+  },
+];
+
 export const Home = () => {
+  const renderItem = ({ item }: RenderItemProps) => (
+    <Card key={item.id} title={item.title} subtitle={item.subtitle} />
+  );
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -36,18 +99,29 @@ export const Home = () => {
         </View>
       </View>
 
-      <View style={styles.containerAmount}>
-        <Text style={styles.textAmount}>Contas</Text>
-        <View style={styles.containerListCounts}>
-          <Image
-            source={require("../../../assets/icons/symbol.png")}
-            style={styles.imageNotCounts}
+      <Text style={styles.textAmount}>Contas</Text>
+      {mockData.length ? (
+        <SafeAreaView style={styles.safeAreaView}>
+          <FlatList
+            data={mockData}
+            renderItem={renderItem}
+            style={{ paddingBottom: 150 }}
           />
-          <Text style={styles.textNotCounts}>
-            Você ainda não tem nenhum gasto cadastrado
-          </Text>
+        </SafeAreaView>
+      ) : (
+        <View style={styles.containerAmount}>
+          <View style={styles.containerListCounts}>
+            <Image
+              source={require("../../../assets/icons/symbol.png")}
+              style={styles.imageNotCounts}
+            />
+            <Text style={styles.textNotCounts}>
+              Você ainda não tem nenhum gasto cadastrado
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
+
       <ButtonFab />
     </View>
   );

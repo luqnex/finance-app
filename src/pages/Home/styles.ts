@@ -65,14 +65,20 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: "#E5E5E5",
   },
-  containerAmount: {
-    marginTop: "15%",
-    marginHorizontal: 20,
-  },
   textAmount: {
+    marginTop: 60,
     fontWeight: "bold",
     fontSize: 20,
     color: "#AEAEAE",
+    marginLeft: 20,
+  },
+  safeAreaView: {
+    marginTop: 30,
+    paddingBottom: 350,
+  },
+  containerAmount: {
+    marginTop: "15%",
+    marginHorizontal: 20,
   },
   containerListCounts: {
     alignItems: "center",

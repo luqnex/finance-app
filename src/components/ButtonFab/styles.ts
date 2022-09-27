@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     bottom: 70,
   },
   buttonAdd: {
-    height: 40,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,
