@@ -1,3 +1,4 @@
+
 import { StatusBar } from "expo-status-bar";
 
 import {
@@ -15,7 +16,8 @@ import { ButtonFab } from "../../components/ButtonFab";
 import { Card } from "../../components/Card";
 
 import { styles } from "./styles";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 type CountsDataProps = {
   id: number;
@@ -83,7 +85,7 @@ export const Home = () => {
     <Card key={item.id} title={item.title} subtitle={item.subtitle} />
   );
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     const getIncomeValue = async () => {
       try {
         const data = await AsyncStorage.getItem("income");
@@ -96,22 +98,22 @@ export const Home = () => {
     };
 
     getIncomeValue();
-  }, []);
+  }, []));
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     const getCountsValue = async () => {
       try {
-        const data = await AsyncStorage.getItem("counts");
-        if (data !== null) {
-          setCounts(JSON.parse(data));
-        }
+        const response = await AsyncStorage.getItem("counts");
+        const data = response ? JSON.parse(response) : []
+        console.log(data)
+        //setCounts(data);
       } catch (e) {
         console.log(e);
       }
     };
 
     getCountsValue();
-  }, []);
+  }, []));
 
   return (
     <View style={styles.container}>
