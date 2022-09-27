@@ -1,13 +1,6 @@
-import {
-  Button,
-  Image,
-  NativeSyntheticEvent,
-  Text,
-  TextInput,
-  TextInputChangeEventData,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -25,12 +18,32 @@ export const Counts = () => {
 
   const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
+  const handleSaveData = async () => {
+    const oldData = await AsyncStorage.getItem("counts");
+
+    try {
+      const data = {
+        name,
+        date,
+      };
+
+      if (oldData !== null) {
+        const mergeData = [{ ...JSON.parse(oldData), ...data }];
+        console.log(mergeData, "merge");
+        await AsyncStorage.setItem("counts", JSON.stringify(mergeData));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const goBack = () => {
     navigation.goBack();
   };
 
-  const save = () => {
-    goBack();
+  const save = async () => {
+    await handleSaveData();
+    // goBack;
   };
 
   const handleChangeName = (text: string) => {
@@ -39,6 +52,10 @@ export const Counts = () => {
 
   const handleChangeDate = (date: string) => {
     setDate(date);
+  };
+
+  const clear = async () => {
+    await AsyncStorage.clear();
   };
 
   return (

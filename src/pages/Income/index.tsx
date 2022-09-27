@@ -1,13 +1,8 @@
-import {
-  Button,
-  Image,
-  NativeSyntheticEvent,
-  Text,
-  TextInput,
-  TextInputChangeEventData,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useState } from "react";
+
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,23 +12,32 @@ import { NavigationProps } from "../../utils/interface";
 
 import { styles } from "./styles";
 import { ButtonSave } from "../../components/ButtonSave";
-import { useState } from "react";
 
 export const Income = () => {
-  const [name, setName] = useState("");
+  const [value, setValue] = useState("");
 
   const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
+
+  const handleChangeName = (text: string) => {
+    setValue(text);
+  };
+
+  const handleSaveData = async () => {
+    try {
+      AsyncStorage.setItem("income", value);
+      goBack();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const save = () => {
-    goBack();
-  };
-
-  const handleChangeName = (text: string) => {
-    setName(text);
+  const save = async () => {
+    await handleSaveData();
+    goBack;
   };
 
   return (
@@ -42,7 +46,7 @@ export const Income = () => {
         <TouchableOpacity onPress={goBack}>
           <Image source={require("../../../assets/icons/arrowLeft.png")} />
         </TouchableOpacity>
-        <Text style={styles.title}>Gastos</Text>
+        <Text style={styles.title}>Receita</Text>
         <View />
       </View>
 
@@ -52,7 +56,7 @@ export const Income = () => {
           de uma
         </Text>
         <TextInput
-          value={name}
+          value={value}
           style={styles.inputName}
           placeholder="Valor total da sua receita"
           onChangeText={handleChangeName}

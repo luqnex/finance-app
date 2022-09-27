@@ -1,10 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import { FlatList, Image, SafeAreaView, Text, View } from "react-native";
+
+import {
+  Button,
+  FlatList,
+  Image,
+  SafeAreaView,
+  Text,
+  View,
+} from "react-native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { ButtonFab } from "../../components/ButtonFab";
 import { Card } from "../../components/Card";
 
 import { styles } from "./styles";
+import { useEffect, useState } from "react";
 
 type CountsDataProps = {
   id: number;
@@ -65,9 +76,42 @@ const mockData: CountsDataProps[] = [
 ];
 
 export const Home = () => {
+  const [balance, setBalance] = useState("");
+  const [counts, setCounts] = useState<any>();
+
   const renderItem = ({ item }: RenderItemProps) => (
     <Card key={item.id} title={item.title} subtitle={item.subtitle} />
   );
+
+  useEffect(() => {
+    const getIncomeValue = async () => {
+      try {
+        const data = await AsyncStorage.getItem("income");
+        if (data) {
+          setBalance(data);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getIncomeValue();
+  }, []);
+
+  useEffect(() => {
+    const getCountsValue = async () => {
+      try {
+        const data = await AsyncStorage.getItem("counts");
+        if (data !== null) {
+          setCounts(JSON.parse(data));
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getCountsValue();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -75,7 +119,7 @@ export const Home = () => {
 
       <View style={styles.containerHeader}>
         <Text style={styles.titlePage}>Saldo</Text>
-        <Text style={styles.subtitlePage}>R$ 3500,00</Text>
+        <Text style={styles.subtitlePage}>R$ {balance}</Text>
       </View>
 
       <View style={styles.cardRelative}>
