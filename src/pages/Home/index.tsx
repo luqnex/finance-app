@@ -21,68 +21,21 @@ import { useFocusEffect } from "@react-navigation/native";
 
 type CountsDataProps = {
   id: number;
-  title: string;
-  subtitle: string;
+  name: string;
+  date: string;
+  value: string;
 };
 
 type RenderItemProps = {
   item: CountsDataProps;
 };
 
-const mockData: CountsDataProps[] = [
-  {
-    id: 1,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 2,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 3,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 4,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 5,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 6,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 7,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 8,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-  {
-    id: 9,
-    title: "Patrimônio 147456",
-    subtitle: "10/07/2022",
-  },
-];
-
 export const Home = () => {
   const [balance, setBalance] = useState("");
-  const [counts, setCounts] = useState<any>();
+  const [counts, setCounts] = useState<CountsDataProps[]>([]);
 
   const renderItem = ({ item }: RenderItemProps) => (
-    <Card key={item.id} title={item.title} subtitle={item.subtitle} />
+    <Card key={item.id} name={item.name} date={item.date} value={item.value} />
   );
 
   useFocusEffect(useCallback(() => {
@@ -105,8 +58,7 @@ export const Home = () => {
       try {
         const response = await AsyncStorage.getItem("counts");
         const data = response ? JSON.parse(response) : []
-        console.log(data)
-        //setCounts(data);
+        setCounts(data);
       } catch (e) {
         console.log(e);
       }
@@ -114,6 +66,10 @@ export const Home = () => {
 
     getCountsValue();
   }, []));
+
+  const clear = async () => {
+    await AsyncStorage.clear();
+  };
 
   return (
     <View style={styles.container}>
@@ -146,10 +102,10 @@ export const Home = () => {
       </View>
 
       <Text style={styles.textAmount}>Contas</Text>
-      {mockData.length ? (
+      {counts.length ? (
         <SafeAreaView style={styles.safeAreaView}>
           <FlatList
-            data={mockData}
+            data={counts}
             renderItem={renderItem}
             style={{ paddingBottom: 150 }}
           />

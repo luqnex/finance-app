@@ -11,19 +11,24 @@ import { NavigationProps } from "../../utils/interface";
 import { styles } from "./styles";
 import { ButtonSave } from "../../components/ButtonSave";
 import { useState } from "react";
+import uuid  from "react-native-uuid";
 
 export const Counts = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
+  const [value, setValue] = useState('')
 
   const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
   const handleSaveData = async () => {
+    const id = uuid.v4()
 
     try {
       const newData = {
+        id,
         name,
         date,
+        value,
       };
 
       const response = await AsyncStorage.getItem("counts");
@@ -55,9 +60,9 @@ export const Counts = () => {
     setDate(date);
   };
 
-  const clear = async () => {
-    await AsyncStorage.clear();
-  };
+  const handleChangeValue = (value: string) => {
+    setValue(value)
+  }
 
   return (
     <View style={styles.container}>
@@ -78,9 +83,15 @@ export const Counts = () => {
         />
         <TextInput
           value={date}
-          style={styles.inputDate}
+          style={styles.inputName}
           placeholder="Data de vencimento"
           onChangeText={handleChangeDate}
+        />
+        <TextInput
+          value={value}
+          style={styles.inputName}
+          placeholder="Valor da conta"
+          onChangeText={handleChangeValue}
         />
       </View>
 

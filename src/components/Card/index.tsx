@@ -3,19 +3,20 @@ import { Image, Text, View } from "react-native";
 import { styles } from "./styles";
 
 type CardProps = {
-  title: string;
-  subtitle: string;
+  name: string;
+  date: string;
+  value: string;
   type?: "COUNT" | "INCOME";
 };
 
-export const Card = ({ type, title, subtitle }: CardProps) => {
+export const Card = ({ type, name, date, value }: CardProps) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{name} - R$ {value}</Text>
         <Text style={styles.subtitle}>
           <Image source={require("../../../assets/icons/timer.png")} />{" "}
-          Vencimento: {subtitle}
+          Vencimento: {date}
         </Text>
       </View>
 
