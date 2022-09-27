@@ -19,19 +19,21 @@ export const Counts = () => {
   const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
   const handleSaveData = async () => {
-    const oldData = await AsyncStorage.getItem("counts");
 
     try {
-      const data = {
+      const newData = {
         name,
         date,
       };
 
-      if (oldData !== null) {
-        const mergeData = [{ ...JSON.parse(oldData), ...data }];
-        console.log(mergeData, "merge");
-        await AsyncStorage.setItem("counts", JSON.stringify(mergeData));
-      }
+      const response = await AsyncStorage.getItem("counts");
+      const previusData = response ? JSON.parse(response) : []
+
+      const data = [...previusData, newData]
+
+      await AsyncStorage.setItem("counts", JSON.stringify(data))
+
+      goBack();
     } catch (e) {
       console.log(e);
     }
@@ -42,8 +44,7 @@ export const Counts = () => {
   };
 
   const save = async () => {
-    await handleSaveData();
-    // goBack;
+    handleSaveData();
   };
 
   const handleChangeName = (text: string) => {
