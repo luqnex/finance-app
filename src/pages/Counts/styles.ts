@@ -23,12 +23,13 @@ export const styles = StyleSheet.create({
   },
   containerText: {
     height: "70%",
+    paddingTop: 30,
   },
   inputName: {
     width: "90%",
     height: 50,
     marginHorizontal: 20,
-    marginTop: 60,
+    marginTop: 10,
     backgroundColor: "#FFF",
     borderRadius: 4,
     paddingHorizontal: 15,

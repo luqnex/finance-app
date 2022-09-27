@@ -1,29 +1,24 @@
+import { useCallback, useState } from "react";
+
+import { FlatList, Image, SafeAreaView, Text, View } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
 
-import {
-  Button,
-  FlatList,
-  Image,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { ButtonFab } from "../../components/ButtonFab";
 import { Card } from "../../components/Card";
+import { ButtonFab } from "../../components/ButtonFab";
 
 import { styles } from "./styles";
-import { useCallback, useEffect, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
 
 type CountsDataProps = {
   id: number;
   name: string;
   date: string;
-  value: string;
+  value: number;
+  check: boolean;
 };
 
 type RenderItemProps = {
@@ -31,42 +26,76 @@ type RenderItemProps = {
 };
 
 export const Home = () => {
-  const [balance, setBalance] = useState("");
+  const [balance, setBalance] = useState(0);
+  const [revenue, setRevenue] = useState(0);
+  const [incomes, setIncomes] = useState(0);
   const [counts, setCounts] = useState<CountsDataProps[]>([]);
 
   const renderItem = ({ item }: RenderItemProps) => (
-    <Card key={item.id} name={item.name} date={item.date} value={item.value} />
+    <Card
+      key={item.id}
+      name={item.name}
+      date={item.date}
+      value={item.value.toString()}
+      /* counts={counts}
+      setCounts={setCounts} */
+    />
   );
 
-  useFocusEffect(useCallback(() => {
-    const getIncomeValue = async () => {
-      try {
-        const data = await AsyncStorage.getItem("income");
-        if (data) {
-          setBalance(data);
+  useFocusEffect(
+    useCallback(() => {
+      const data = counts.map((count) => {
+        return count.value;
+      });
+
+      const sumCounts = data.reduce((acc, count) => {
+        return Number(acc) + Number(count);
+      }, 0);
+
+      setIncomes(sumCounts);
+    }, [counts])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      const getIncomeValue = async () => {
+        try {
+          const data = await AsyncStorage.getItem("income");
+          if (data) {
+            setRevenue(Number(data));
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
-      }
-    };
+      };
 
-    getIncomeValue();
-  }, []));
+      getIncomeValue();
+    }, [])
+  );
 
-  useFocusEffect(useCallback(() => {
-    const getCountsValue = async () => {
-      try {
-        const response = await AsyncStorage.getItem("counts");
-        const data = response ? JSON.parse(response) : []
-        setCounts(data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const getCountsValue = async () => {
+        try {
+          const response = await AsyncStorage.getItem("counts");
+          const data = response ? JSON.parse(response) : [];
+          setCounts(data);
+        } catch (e) {
+          console.log(e);
+        }
+      };
 
-    getCountsValue();
-  }, []));
+      getCountsValue();
+    }, [])
+  );
 
+  useFocusEffect(
+    useCallback(() => {
+      setBalance(revenue - incomes);
+    }, [revenue, incomes])
+  );
+
+  // TODO: remover
   const clear = async () => {
     await AsyncStorage.clear();
   };
@@ -87,7 +116,7 @@ export const Home = () => {
           </View>
           <View>
             <Text style={styles.title}>Receita</Text>
-            <Text style={styles.subtitle}>$6,650</Text>
+            <Text style={styles.subtitle}>R$ {revenue}</Text>
           </View>
         </View>
         <View style={styles.containerImageCard}>
@@ -96,7 +125,7 @@ export const Home = () => {
           </View>
           <View>
             <Text style={styles.title}>Gastos</Text>
-            <Text style={styles.subtitle}>$6,650</Text>
+            <Text style={styles.subtitle}>R$ {incomes}</Text>
           </View>
         </View>
       </View>

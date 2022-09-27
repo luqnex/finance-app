@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+import uuid from "react-native-uuid";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -10,18 +14,16 @@ import { NavigationProps } from "../../utils/interface";
 
 import { styles } from "./styles";
 import { ButtonSave } from "../../components/ButtonSave";
-import { useState } from "react";
-import uuid  from "react-native-uuid";
 
 export const Counts = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("");
 
   const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
   const handleSaveData = async () => {
-    const id = uuid.v4()
+    const id = uuid.v4();
 
     try {
       const newData = {
@@ -29,14 +31,15 @@ export const Counts = () => {
         name,
         date,
         value,
+        check: false,
       };
 
       const response = await AsyncStorage.getItem("counts");
-      const previusData = response ? JSON.parse(response) : []
+      const previousData = response ? JSON.parse(response) : [];
 
-      const data = [...previusData, newData]
+      const data = [...previousData, newData];
 
-      await AsyncStorage.setItem("counts", JSON.stringify(data))
+      await AsyncStorage.setItem("counts", JSON.stringify(data));
 
       goBack();
     } catch (e) {
@@ -61,8 +64,8 @@ export const Counts = () => {
   };
 
   const handleChangeValue = (value: string) => {
-    setValue(value)
-  }
+    setValue(value);
+  };
 
   return (
     <View style={styles.container}>
