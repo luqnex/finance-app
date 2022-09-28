@@ -1,43 +1,50 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+// import BouncyCheckbox from "react-native-bouncy-checkbox";
+
+import { CountsDataProps } from "../../@types/interface";
 
 import { styles } from "./styles";
 
-type CountsDataProps = {
-  id: number;
-  name: string;
-  date: string;
-  value: string;
-  check: boolean;
-};
-
 type CardProps = {
+  id: string;
   name: string;
   date: string;
   value: string;
-  type?: "COUNT" | "INCOME";
-  /* counts: CountsDataProps[];
-  setCounts: Dispatch<SetStateAction<CountsDataProps[]>>; */
+  counts: CountsDataProps[];
+  setCounts: Dispatch<SetStateAction<CountsDataProps[]>>;
 };
 
 export const Card = ({
-  type,
+  id,
   name,
   date,
   value,
-}: /* counts,
-  setCounts, */
-CardProps) => {
-  const [check, setCheck] = useState(false);
+  counts,
+  setCounts,
+}: CardProps) => {
+  const handleRemove = async (id: string) => {
+    const removeNameCount = counts.filter((count) => count.id !== id);
 
-  const handleCheck = () => {
-    setCheck(!check);
+    setCounts(removeNameCount);
+
+    try {
+      await AsyncStorage.setItem("counts", JSON.stringify(removeNameCount));
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  // TODO: pensar em algum modo de marcar como pago a conta.
+  // const [check, setCheck] = useState(false);
+
+  /* const handleCheck = () => {
+    setCheck(!check);
+  }; */
 
   /* useEffect(() => {
     const getNameCount = counts.find((count) => count.name === name);
@@ -73,7 +80,12 @@ CardProps) => {
       </View>
 
       <View>
-        <BouncyCheckbox isChecked={check} onPress={handleCheck} />
+        <TouchableOpacity onPress={() => handleRemove(id)}>
+          <Image
+            source={require("../../../assets/icons/trash.png")}
+            style={{ width: 30 }}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );

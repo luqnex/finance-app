@@ -1,6 +1,13 @@
 import { useCallback, useState } from "react";
 
-import { FlatList, Image, SafeAreaView, Text, View } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 
 import { StatusBar } from "expo-status-bar";
 
@@ -11,19 +18,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Card } from "../../components/Card";
 import { ButtonFab } from "../../components/ButtonFab";
 
+import { CountsDataProps, RenderItemProps } from "../../@types/interface";
+
 import { styles } from "./styles";
-
-type CountsDataProps = {
-  id: number;
-  name: string;
-  date: string;
-  value: number;
-  check: boolean;
-};
-
-type RenderItemProps = {
-  item: CountsDataProps;
-};
 
 export const Home = () => {
   const [balance, setBalance] = useState(0);
@@ -34,11 +31,12 @@ export const Home = () => {
   const renderItem = ({ item }: RenderItemProps) => (
     <Card
       key={item.id}
+      id={item.id}
+      counts={counts}
       name={item.name}
       date={item.date}
       value={item.value.toString()}
-      /* counts={counts}
-      setCounts={setCounts} */
+      setCounts={setCounts}
     />
   );
 
@@ -95,9 +93,9 @@ export const Home = () => {
     }, [revenue, incomes])
   );
 
-  // TODO: remover
-  const clear = async () => {
-    await AsyncStorage.clear();
+  const clearAllCounts = async () => {
+    await AsyncStorage.removeItem("counts");
+    setCounts([]);
   };
 
   return (
@@ -131,6 +129,7 @@ export const Home = () => {
       </View>
 
       <Text style={styles.textAmount}>Contas</Text>
+
       {counts.length ? (
         <SafeAreaView style={styles.safeAreaView}>
           <FlatList

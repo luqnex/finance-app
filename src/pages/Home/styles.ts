@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     color: "#AEAEAE",
-    marginLeft: 20,
+    marginHorizontal: 20,
   },
   safeAreaView: {
     marginTop: 30,
