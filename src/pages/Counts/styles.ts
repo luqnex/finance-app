@@ -34,13 +34,14 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 15,
   },
-  inputDate: {
+  inputDatePicker: {
     width: "90%",
-    height: 100,
+    height: 50,
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 10,
     backgroundColor: "#FFF",
     borderRadius: 4,
     paddingHorizontal: 15,
+    justifyContent: "center",
   },
 });

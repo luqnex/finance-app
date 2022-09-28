@@ -12,13 +12,16 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 import { NavigationProps } from "../../utils/interface";
 
-import { styles } from "./styles";
 import { ButtonSave } from "../../components/ButtonSave";
+
+import { DatePicker } from "./DatePicker";
+
+import { styles } from "./styles";
 
 export const Counts = () => {
   const [name, setName] = useState("");
-  const [date, setDate] = useState("");
   const [value, setValue] = useState("");
+  const [date, setDate] = useState(new Date());
 
   const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
 
@@ -29,7 +32,7 @@ export const Counts = () => {
       const newData = {
         id,
         name,
-        date,
+        date: date.toLocaleDateString("pt-br", { timeZone: "UTC" }),
         value,
         check: false,
       };
@@ -59,10 +62,6 @@ export const Counts = () => {
     setName(text);
   };
 
-  const handleChangeDate = (date: string) => {
-    setDate(date);
-  };
-
   const handleChangeValue = (value: string) => {
     setValue(value);
   };
@@ -84,12 +83,7 @@ export const Counts = () => {
           placeholder="Nome da conta"
           onChangeText={handleChangeName}
         />
-        <TextInput
-          value={date}
-          style={styles.inputName}
-          placeholder="Data de vencimento"
-          onChangeText={handleChangeDate}
-        />
+        <DatePicker date={date} setDate={setDate} />
         <TextInput
           value={value}
           style={styles.inputName}
@@ -97,7 +91,6 @@ export const Counts = () => {
           onChangeText={handleChangeValue}
         />
       </View>
-
       <ButtonSave label="Salvar" onPress={save} />
     </View>
   );

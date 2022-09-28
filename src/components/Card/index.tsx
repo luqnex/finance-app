@@ -4,8 +4,6 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// import BouncyCheckbox from "react-native-bouncy-checkbox";
-
 import { CountsDataProps } from "../../@types/interface";
 
 import { styles } from "./styles";
