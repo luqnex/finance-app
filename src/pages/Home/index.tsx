@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { View, Text, Image, FlatList, SafeAreaView } from "react-native";
 
@@ -28,6 +28,7 @@ export const Home = () => {
       counts={counts}
       name={item.name}
       date={item.date}
+      check={item.check}
       value={item.value.toString()}
       setCounts={setCounts}
     />
@@ -36,11 +37,11 @@ export const Home = () => {
   useFocusEffect(
     useCallback(() => {
       const data = counts.map((count) => {
-        return count.value;
+        return Number(count.value);
       });
 
       const sumCounts = data.reduce((acc, count) => {
-        return Number(acc) + Number(count);
+        return acc + count;
       }, 0);
 
       setIncomes(sumCounts);
@@ -64,6 +65,8 @@ export const Home = () => {
     }, [])
   );
 
+  console.log(counts);
+
   useFocusEffect(
     useCallback(() => {
       const getCountsValue = async () => {
@@ -80,16 +83,19 @@ export const Home = () => {
     }, [])
   );
 
+  useEffect(() => {
+    const change = async () => {
+      await AsyncStorage.setItem("counts", JSON.stringify(counts));
+    };
+
+    change();
+  }, [counts]);
+
   useFocusEffect(
     useCallback(() => {
       setBalance(revenue - incomes);
     }, [revenue, incomes])
   );
-
-  const clearAllCounts = async () => {
-    await AsyncStorage.removeItem("counts");
-    setCounts([]);
-  };
 
   return (
     <View style={styles.container}>
@@ -97,7 +103,7 @@ export const Home = () => {
 
       <View style={styles.containerHeader}>
         <Text style={styles.titlePage}>Saldo</Text>
-        <Text style={styles.subtitlePage}>R$ {balance}</Text>
+        <Text style={styles.subtitlePage}>R$ {balance.toFixed(2)}</Text>
       </View>
 
       <View style={styles.cardRelative}>

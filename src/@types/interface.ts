@@ -3,7 +3,7 @@ export type CountsDataProps = {
   name: string;
   date: string;
   value: number;
-  check: boolean;
+  check: boolean | undefined;
 };
 
 export type RenderItemProps = {

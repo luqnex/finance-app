@@ -1,6 +1,8 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
+
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -14,6 +16,7 @@ type CardProps = {
   date: string;
   value: string;
   counts: CountsDataProps[];
+  check: boolean | undefined;
   setCounts: Dispatch<SetStateAction<CountsDataProps[]>>;
 };
 
@@ -21,10 +24,16 @@ export const Card = ({
   id,
   name,
   date,
+  check,
   value,
   counts,
   setCounts,
 }: CardProps) => {
+  // const getNameCount = counts.find((count) => count.name === name);
+
+  console.log(check);
+  const [checkValue, setCheckValue] = useState(check);
+
   const handleRemove = async (id: string) => {
     const removeNameCount = counts.filter((count) => count.id !== id);
 
@@ -37,37 +46,30 @@ export const Card = ({
     }
   };
 
-  // TODO: pensar em algum modo de marcar como pago a conta.
-  // const [check, setCheck] = useState(false);
+  const handleCheck = () => {
+    setCheckValue(!checkValue);
+  };
 
-  /* const handleCheck = () => {
-    setCheck(!check);
-  }; */
+  useEffect(() => {
+    try {
+      const changeCheck = counts.map((count) =>
+        count.name === name ? { ...count, check: checkValue } : { ...count }
+      );
 
-  /* useEffect(() => {
-    const getNameCount = counts.find((count) => count.name === name);
-    const removeNameCount = counts.filter((count) => count.name !== name);
-
-    for (let count in getNameCount) {
-      console.log(count);
+      setCounts(changeCheck);
+    } catch (e) {
+      console.log(e);
     }
+  }, [checkValue]);
 
-    if (getNameCount) {
-      const newDate = {
-        id: getNameCount.id,
-        name: getNameCount.name,
-        value: getNameCount.value,
-        date: getNameCount.date,
-        check: check,
-      };
-
-      setCounts([...removeNameCount, newDate]);
-    }
-  }, [check]); */
+  useEffect(() => {
+    setCheckValue(check);
+  }, [check]);
 
   return (
     <View style={styles.container}>
       <View>
+        <BouncyCheckbox onPress={handleCheck} isChecked={checkValue} />
         <Text style={styles.title}>
           {name} - R$ {value}
         </Text>
