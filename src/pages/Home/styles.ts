@@ -98,4 +98,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     color: "#7C7C8A",
   },
+  contentContainerStyle: {
+    paddingBottom: 100,
+  }
 });

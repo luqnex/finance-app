@@ -132,7 +132,7 @@ export const Home = () => {
           <FlatList
             data={counts}
             renderItem={renderItem}
-            style={{ paddingBottom: 150 }}
+            contentContainerStyle={styles.contentContainerStyle}
           />
         </SafeAreaView>
       ) : (
