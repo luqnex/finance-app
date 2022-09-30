@@ -29,9 +29,6 @@ export const Card = ({
   counts,
   setCounts,
 }: CardProps) => {
-  // const getNameCount = counts.find((count) => count.name === name);
-
-  console.log(check);
   const [checkValue, setCheckValue] = useState(check);
 
   const handleRemove = async (id: string) => {
@@ -67,16 +64,20 @@ export const Card = ({
   }, [check]);
 
   return (
-    <View style={styles.container}>
-      <View>
+    <View
+      style={[styles.container, check ? styles.borderGreen : styles.borderRed]}
+    >
+      <View style={styles.containerInfoCard}>
         <BouncyCheckbox onPress={handleCheck} isChecked={checkValue} />
-        <Text style={styles.title}>
-          {name} - R$ {value}
-        </Text>
-        <Text style={styles.subtitle}>
-          <Image source={require("../../../assets/icons/timer.png")} />{" "}
-          Vencimento: {date}
-        </Text>
+        <View>
+          <Text style={styles.title}>
+            {name} - R$ {value}
+          </Text>
+          <Text style={styles.subtitle}>
+            <Image source={require("../../../assets/icons/timer.png")} />{" "}
+            Vencimento: {date}
+          </Text>
+        </View>
       </View>
 
       <View>

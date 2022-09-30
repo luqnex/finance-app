@@ -12,9 +12,17 @@ export const styles = StyleSheet.create({
     backgroundColor: "#FFFF",
     borderRadius: 4,
     shadowColor: "#0000",
-    borderLeftColor: "#F06322",
     borderLeftWidth: 8,
     marginVertical: 8,
+  },
+  borderGreen: {
+    borderLeftColor: "#75D2CE",
+  },
+  borderRed: {
+    borderLeftColor: "#F06322",
+  },
+  containerInfoCard: {
+    flexDirection: "row",
   },
   title: {
     fontSize: 16,

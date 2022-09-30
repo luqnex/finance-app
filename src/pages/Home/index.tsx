@@ -65,8 +65,6 @@ export const Home = () => {
     }, [])
   );
 
-  console.log(counts);
-
   useFocusEffect(
     useCallback(() => {
       const getCountsValue = async () => {
