@@ -21,6 +21,12 @@ export const styles = StyleSheet.create({
   borderRed: {
     borderLeftColor: "#F06322",
   },
+  iconNotChecked: {
+    backgroundColor: 'transparent',
+  },
+  iconChecked: {
+    backgroundColor: "#75D2CE",
+  },
   containerInfoCard: {
     flexDirection: "row",
   },
@@ -31,5 +37,9 @@ export const styles = StyleSheet.create({
   },
   subtitle: {
     color: "#C4C4CC",
+  },
+  iconTrash: {
+    color: "gray",
+    fontSize: 22,
   },
 });

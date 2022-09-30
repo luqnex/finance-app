@@ -10,6 +10,8 @@ import { CountsDataProps } from "../../@types/interface";
 
 import { styles } from "./styles";
 
+import Icon from "react-native-vector-icons/FontAwesome";
+
 type CardProps = {
   id: string;
   name: string;
@@ -68,7 +70,12 @@ export const Card = ({
       style={[styles.container, check ? styles.borderGreen : styles.borderRed]}
     >
       <View style={styles.containerInfoCard}>
-        <BouncyCheckbox onPress={handleCheck} isChecked={checkValue} />
+        <BouncyCheckbox
+          onPress={handleCheck}
+          isChecked={checkValue}
+          fillColor={check ? "transparent" : "#F06322"}
+          iconStyle={check ? styles.iconChecked : styles.iconNotChecked}
+        />
         <View>
           <Text style={styles.title}>
             {name} - R$ {value}
@@ -82,10 +89,7 @@ export const Card = ({
 
       <View>
         <TouchableOpacity onPress={() => handleRemove(id)}>
-          <Image
-            source={require("../../../assets/icons/trash.png")}
-            style={{ width: 30 }}
-          />
+          <Icon name="trash" style={styles.iconTrash} />
         </TouchableOpacity>
       </View>
     </View>
