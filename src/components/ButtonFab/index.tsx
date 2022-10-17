@@ -6,7 +6,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { NavigationProps } from "../../utils/interface";
+import { NavigationProps } from "../../@types/interface";
 
 import { styles } from "./styles";
 

@@ -10,11 +10,11 @@ import { useNavigation } from "@react-navigation/native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import { NavigationProps } from "../../utils/interface";
+import { NavigationProps } from "../../@types/interface";
 
 import { ButtonSave } from "../../components/ButtonSave";
 
-import { DatePicker } from "./DatePicker";
+import { DatePicker } from "../../components/DatePicker";
 
 import { styles } from "./styles";
 

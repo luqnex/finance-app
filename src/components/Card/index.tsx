@@ -2,15 +2,19 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
+
+import { StackNavigationProp } from "@react-navigation/stack";
+
+import Icon from "react-native-vector-icons/FontAwesome";
+
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { CountsDataProps } from "../../@types/interface";
+import { CountsDataProps, NavigationProps } from "../../@types/interface";
 
 import { styles } from "./styles";
-
-import Icon from "react-native-vector-icons/FontAwesome";
 
 type CardProps = {
   id: string;
@@ -33,6 +37,8 @@ export const Card = ({
 }: CardProps) => {
   const [checkValue, setCheckValue] = useState(check);
 
+  const navigation = useNavigation<StackNavigationProp<NavigationProps>>();
+
   const handleRemove = async (id: string) => {
     const removeNameCount = counts.filter((count) => count.id !== id);
 
@@ -43,6 +49,12 @@ export const Card = ({
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const handleNavigateToEdit = () => {
+    navigation.navigate("Edit", {
+      id: id,
+    });
   };
 
   const handleCheck = () => {
@@ -76,15 +88,12 @@ export const Card = ({
           fillColor={check ? "transparent" : "#F06322"}
           iconStyle={check ? styles.iconChecked : styles.iconNotChecked}
         />
-        <View>
+        <TouchableOpacity onPress={handleNavigateToEdit}>
           <Text style={styles.title}>
             {name} - R$ {value}
           </Text>
-          <Text style={styles.subtitle}>
-            <Image source={require("../../../assets/icons/timer.png")} />{" "}
-            Vencimento: {date}
-          </Text>
-        </View>
+          <Text style={styles.subtitle}>Vencimento: {date}</Text>
+        </TouchableOpacity>
       </View>
 
       <View>

@@ -8,10 +8,11 @@ import { useNavigation } from "@react-navigation/native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import { NavigationProps } from "../../utils/interface";
+import { NavigationProps } from "../../@types/interface";
+
+import { ButtonSave } from "../../components/ButtonSave";
 
 import { styles } from "./styles";
-import { ButtonSave } from "../../components/ButtonSave";
 
 export const Income = () => {
   const [value, setValue] = useState("");
